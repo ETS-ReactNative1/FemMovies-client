@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+//import propTypes from 'prop-types';
 
 // Create RegistrationView as function component using Hooks
 export function RegistrationView(props) {
@@ -44,3 +45,9 @@ export function RegistrationView(props) {
   );
 
 }
+
+/* Define propTypes when props are used
+RegistrationView.propTypes = {
+  onLoggedIn: propTypes.func.isRequired
+};
+*/

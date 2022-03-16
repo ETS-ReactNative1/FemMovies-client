@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import propTypes from 'prop-types';
 
 // Create LoginView as function component using Hooks
 export function LoginView(props) {
@@ -35,3 +36,7 @@ export function LoginView(props) {
   );
 
 }
+
+LoginView.propTypes = {
+  onLoggedIn: propTypes.func.isRequired
+};
