@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 export class MovieView extends React.Component {
 
@@ -24,3 +25,15 @@ export class MovieView extends React.Component {
   }
 
 }
+
+/* Use propTypes to validate data types of props
+    Validation logic:
+    movie object is required, if object contains a title, the Title has to be a string
+    onBackClick function is required
+*/
+MovieView.propTypes = {
+  movie: propTypes.shape({
+    Title: propTypes.string
+  }).isRequired,
+  onBackClick: propTypes.func.isRequired
+};
