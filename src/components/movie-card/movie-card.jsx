@@ -7,15 +7,19 @@ export class MovieCard extends React.Component {
   render() {
     const { movie, onMovieClick } = this.props;
 
+
     return (
-      <Card>
-        <Card.Img variant="top" src={movie.ImagePath} />
+
+      <Card text="dark" border="dark">
+        <Card.Img variant="top" src={movie.ImagePath} className="img-responsive" />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
-          <Button onClick={() => onMovieClick(movie)} variant="link">Open</Button>
+          {/* <Card.Text>{movie.Description}</Card.Text> */}
+          <Button variant="outline-primary">Add to Favorites</Button>
+          <Button onClick={() => onMovieClick(movie)} variant="link">More Info</Button>
         </Card.Body>
       </Card>
+
     );
     // onClick() event listener will set selectedMovie variable in main-view to this movie, this will render the movie-view
   }

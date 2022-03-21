@@ -1,4 +1,13 @@
-.fem-movies {
-  color: steelblue;
+body {
+  background-color: #2a2f33;
+  color: white;
+}
+
+.main-container {
+  margin-top: 90px;
+}
+
+Button {
+  margin-top: 10px;
 }
 /*# sourceMappingURL=index.ce1d6491.css.map */

@@ -1,5 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge'; a
 
 export class MovieView extends React.Component {
 
@@ -7,20 +11,29 @@ export class MovieView extends React.Component {
     const { movie, onBackClick } = this.props;
 
     return (
-      <div className="movie-view">
-        <div className="movie-img">
-          <img src={movie.ImagePath} />
-        </div>
-        <div className="movie-title">
-          <span className="label">Title: </span>
-          <span className="value">{movie.Title}</span>
-        </div>
-        <div className="movie-description">
-          <span className="label">Description: </span>
-          <span className="value">{movie.Description}</span>
-        </div>
-        <button onClick={() => { onBackClick(null); }}>Back</button>
-      </div> // onClick() event listener sets selectedMovie variable in main-view to null, allowing to return back to list of MovieCards
+      <Row className="movie-view justify-content-md-center">
+        <Col md={8}>
+          <Row className="movie-title">
+            <h1 className="value">{movie.Title}</h1>
+          </Row>
+          <Row className="movie-img" >
+            <img src={movie.ImagePath} width="350" />
+          </Row>
+
+          <Row className="movie-description">
+            <div>
+              <Badge pill bg="light" text="dark">{movie.Genre.Name}</Badge>
+            </div>
+            <div>
+              <span className="value">{movie.Description}</span>
+            </div>
+          </Row>
+          <Row>
+            <Button variant="outline-light" onClick={() => { onBackClick(null); }}>Back to full list</Button>
+          </Row>
+        </Col>
+      </Row>
+      // onClick() event listener sets selectedMovie variable in main-view to null, allowing to return back to list of MovieCards
     );
   }
 
