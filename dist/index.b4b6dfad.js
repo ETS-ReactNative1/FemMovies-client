@@ -24600,73 +24600,103 @@ function LoginView(props) {
     // Return a login form where users can submit their username and password
     // Listening to changes on input and then updating the respective states
     return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {
-        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default, {
-            children: [
-                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Group, {
-                    controlId: "formUsername",
-                    children: [
-                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Label, {
-                            children: "Username:"
-                        }, void 0, false, {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 30,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Control, {
-                            type: "text",
-                            onChange: (e)=>setUsername(e.target.value)
-                        }, void 0, false, {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 31,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 29,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Group, {
-                    controlId: "formPassword",
-                    children: [
-                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Label, {
-                            children: "Password:"
-                        }, void 0, false, {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 35,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Control, {
-                            type: "password",
-                            onChange: (e)=>setPassword(e.target.value)
-                        }, void 0, false, {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 36,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 34,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_buttonDefault.default, {
-                    variant: "primary",
-                    type: "submit",
-                    onClick: handleSubmit,
-                    children: "Submit"
-                }, void 0, false, {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 38,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 28,
-            columnNumber: 7
-        }, this)
-    }, void 0, false));
+        children: [
+            /*#__PURE__*/ _jsxDevRuntime.jsxDEV("h1", {
+                children: "Login"
+            }, void 0, false, {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 28,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default, {
+                className: "mb-3",
+                children: [
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Group, {
+                        controlId: "formUsername",
+                        className: "mb-3",
+                        children: [
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Label, {
+                                children: "Username:"
+                            }, void 0, false, {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 31,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Control, {
+                                type: "text",
+                                onChange: (e)=>setUsername(e.target.value)
+                            }, void 0, false, {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 32,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 30,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Group, {
+                        controlId: "formPassword",
+                        className: "mb-3",
+                        children: [
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Label, {
+                                children: "Password:"
+                            }, void 0, false, {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 36,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_formDefault.default.Control, {
+                                type: "password",
+                                onChange: (e)=>setPassword(e.target.value)
+                            }, void 0, false, {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 37,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 35,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_buttonDefault.default, {
+                        variant: "primary",
+                        type: "submit",
+                        onClick: handleSubmit,
+                        children: "Login"
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 39,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 29,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
+                children: [
+                    "New at FemMoves?",
+                    '    ',
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV("a", {
+                        href: "#",
+                        children: "Register Now!"
+                    }, void 0, false, {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 45,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 43,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true));
 }
 _s(LoginView, "wuQOK7xaXdVz4RMrZQhWbI751Oc=");
 _c = LoginView;
