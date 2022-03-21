@@ -12,25 +12,25 @@ export class MovieView extends React.Component {
 
     return (
       <Row className="movie-view justify-content-md-center">
-        <Col md={8}>
-          <Row className="movie-title">
-            <h1 className="value">{movie.Title}</h1>
-          </Row>
-          <Row className="movie-img" >
-            <img src={movie.ImagePath} width="350" />
-          </Row>
+        <Col>
+          <div className="movie-title">
+            <h1 className="display-4">{movie.Title}</h1>
+          </div>
+          <div className="movie-img text-center" >
+            <img src={movie.ImagePath} width="350" className="img-fluid" />
+          </div>
 
-          <Row className="movie-description">
+          <div className="movie-description">
             <div>
               <Badge pill bg="light" text="dark">{movie.Genre.Name}</Badge>
             </div>
             <div>
               <span className="value">{movie.Description}</span>
             </div>
-          </Row>
-          <Row>
+          </div>
+          <div>
             <Button variant="outline-light" onClick={() => { onBackClick(null); }}>Back to full list</Button>
-          </Row>
+          </div>
         </Col>
       </Row>
       // onClick() event listener sets selectedMovie variable in main-view to null, allowing to return back to list of MovieCards

@@ -22948,6 +22948,7 @@ class MainView extends _reactDefault.default.Component {
             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
                 className: "main-view justify-content-md-center",
                 children: selectedMovie ? /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_colDefault.default, {
+                    xs: 12,
                     md: 8,
                     children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_movieView.MovieView, {
                         movie: selectedMovie,
@@ -30257,12 +30258,11 @@ class MovieView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
             className: "movie-view justify-content-md-center",
             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_colDefault.default, {
-                md: 8,
                 children: [
-                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
                         className: "movie-title",
                         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("h1", {
-                            className: "value",
+                            className: "display-4",
                             children: movie.Title
                         }, void 0, false, {
                             fileName: "src/components/movie-view/movie-view.jsx",
@@ -30274,11 +30274,12 @@ class MovieView extends _reactDefault.default.Component {
                         lineNumber: 16,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
-                        className: "movie-img",
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
+                        className: "movie-img text-center",
                         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("img", {
                             src: movie.ImagePath,
-                            width: "350"
+                            width: "350",
+                            className: "img-fluid"
                         }, void 0, false, {
                             fileName: "src/components/movie-view/movie-view.jsx",
                             lineNumber: 20,
@@ -30289,7 +30290,7 @@ class MovieView extends _reactDefault.default.Component {
                         lineNumber: 19,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
                         className: "movie-description",
                         children: [
                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -30328,7 +30329,7 @@ class MovieView extends _reactDefault.default.Component {
                         lineNumber: 23,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_rowDefault.default, {
+                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
                         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_buttonDefault.default, {
                             variant: "outline-light",
                             onClick: ()=>{
