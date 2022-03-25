@@ -1,11 +1,14 @@
 import React from 'react';
 import propTypes from 'prop-types';
+
+import { Link } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onMovieClick } = this.props;
+    const { movie } = this.props;
 
 
     return (
@@ -16,12 +19,14 @@ export class MovieCard extends React.Component {
           <Card.Title>{movie.Title}</Card.Title>
           {/* <Card.Text>{movie.Description}</Card.Text> */}
           <Button variant="outline-primary">Add to Favorites</Button>
-          <Button onClick={() => onMovieClick(movie)} variant="link">More Info</Button>
+          <Link to={`/movies/${movie._id}`}>
+            <Button variant="link">More Info</Button>
+          </Link>
+
         </Card.Body>
       </Card>
 
     );
-    // onClick() event listener will set selectedMovie variable in main-view to this movie, this will render the movie-view
   }
 }
 
@@ -33,6 +38,5 @@ export class MovieCard extends React.Component {
 MovieCard.propTypes = {
   movie: propTypes.shape({
     Title: propTypes.string
-  }).isRequired,
-  onMovieClick: propTypes.func.isRequired
+  }).isRequired
 };

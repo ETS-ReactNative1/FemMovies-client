@@ -1,9 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Badge from 'react-bootstrap/Badge'; a
+import Badge from 'react-bootstrap/Badge';
 
 export class MovieView extends React.Component {
 
@@ -29,7 +30,7 @@ export class MovieView extends React.Component {
             </div>
           </div>
           <div>
-            <Button variant="outline-light" onClick={() => { onBackClick(null); }}>Back to full list</Button>
+            <Button variant="outline-light" onClick={() => { onBackClick() }}>Back to full list</Button>
           </div>
         </Col>
       </Row>
