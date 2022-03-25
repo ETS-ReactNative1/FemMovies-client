@@ -1,11 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+
+import { Navbar } from '../navbar/navbar';
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { RegistrationView } from '../registration-view/registration-view';
+
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
 
 
 class MainView extends React.Component {
@@ -15,78 +22,109 @@ class MainView extends React.Component {
     this.state = {
       // Creating an empty array to hold movie data from database
       movies: [],
-      // Set selectedMovie to null in the beginning, will be used to open MovieView component
-      selectedMovie: null,
       // Set initial user state to null, used for user login --> Default is logged out
       user: null
     };
   }
 
   // Query femmovies API /movies endpoint to set movies state
-  componentDidMount() {
-    axios.get('https://femmovies.herokuapp.com/movies')
+  getMovies(token) {
+    axios.get('https://femmovies.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
+        //Assign the result to the state
         this.setState({
           movies: response.data
+
         });
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
   }
 
-  /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` property to that movie*/
-  // Create function to set the state of selectedMovie to the newSelectedMovie passed in onMovieClick and onBackClick props
-  setSelectedMovie(newSelectedMovie) {
+  /* On successful login, set token and user variables of local State & load the movies list (getMovies) */
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      selectedMovie: newSelectedMovie
+      user: authData.user.Username
     });
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
 
-  /* When a user successfully logs in, this function updates the `user` property in state to that particular user*/
-  onLoggedIn(user) {
-    this.setState({
-      user
-    });
+  // When token is present (user is logged in), get list of movies
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+    }
   }
 
   render() {
-    const { movies, selectedMovie, user } = this.state;
+    const { movies, user } = this.state;
 
-    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-    if (!user) return (
-      <Row className="login-view justify-content-md-center">
-        <Col md={6}>
-          <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-        </Col>
-      </Row>
-    );
 
-    // If movie list is empty (while movies load from API), display empty page
-    if (movies.length === 0) return <div className="main-view" />;
+
 
     // Else, logic to display the main-view: 
     // If no movie is selected (selecteMovie = null), display a MovieCard for each movie in the list
     // If a movie is selected (via setSelectedMovie, clicking on the MovieCard), display MovieView for this movie
     return (
-      <>
-        <Row className="main-view justify-content-md-center">
-          {selectedMovie
-            ? (
-              <Col xs={12} md={8}>
-                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-              </Col>
-            )
-            : movies.map(movie => (
-              <Col xs={12} sm={6} md={4} lg={3} className="d-flex">
-                <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-              </Col>
-            ))
-          }
-        </Row>
-      </>
-    );
+      <Router>
+        < Navbar user={user} />
+        <Container>
 
+          <Row className="main-view justify-content-md-center">
+
+            <Route exact path="/" render={() => {
+              /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
+              if (!user) return (
+                <Col md={6}>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+              )
+
+              // If movie list is empty (while movies load from API), display empty page
+              if (movies.length === 0) return <div className="main-view" />;
+
+              return movies.map(m => (
+                <Col xs={12} sm={6} md={4} lg={3} className="d-flex" key={m._id}>
+                  <MovieCard movie={m} />
+                  {console.log(m)}
+                </Col>
+
+              ))
+            }} />
+
+            <Route path="/register" render={() => {
+              if (user) return <Redirect to="/" />
+              return (
+                <Col xs={12} md={8}>
+                  <RegistrationView />
+                </Col>
+              )
+            }} />
+            <Route path="/movies/:movieId" render={({ match, history }) => {
+              return (
+                <Col xs={12} md={8}>
+                  <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
+                </Col>
+              )
+            }} />
+
+
+          </Row>
+        </Container>
+      </Router>
+
+    );
   }
 }
 
