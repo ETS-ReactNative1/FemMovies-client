@@ -74,7 +74,6 @@ export function RegistrationView(props) {
 
   // Return a registration form where users can submit their username, password, email and birthday
   // Listening to changes on input and then updating the respective states
-
   return (
     <>
       <h1>Registration</h1>

@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 
+//import Link from 'react-router-dom';
+
 export class MovieView extends React.Component {
 
   render() {
@@ -25,6 +27,13 @@ export class MovieView extends React.Component {
             <div>
               <Badge pill bg="light" text="dark">{movie.Genre.Name}</Badge>
             </div>
+            {/* <div>
+              <p className="value">Director:</p>
+            </div>
+            {/* <div>
+              <p>{movie.Director.Name}</p>
+            </div> 
+            <br /> */}
             <div>
               <span className="value">{movie.Description}</span>
             </div>

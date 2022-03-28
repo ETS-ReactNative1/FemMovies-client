@@ -8,6 +8,7 @@ import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
+import { ProfileView } from '../profile-view/profile-view';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -97,7 +98,6 @@ class MainView extends React.Component {
               return movies.map(m => (
                 <Col xs={12} sm={6} md={4} lg={3} className="d-flex" key={m._id}>
                   <MovieCard movie={m} />
-                  {console.log(m)}
                 </Col>
 
               ))
@@ -115,6 +115,14 @@ class MainView extends React.Component {
               return (
                 <Col xs={12} md={8}>
                   <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
+                </Col>
+              )
+            }} />
+            <Route path={"/users/${user}"} render={({ history }) => {
+              if (!user) return <Redirect to="/" />
+              return (
+                <Col xs={12} md={8}>
+                  <ProfileView user={user} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
