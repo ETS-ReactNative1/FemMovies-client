@@ -9,6 +9,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { DirectorView } from '../director-view/director-view';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -123,6 +124,16 @@ class MainView extends React.Component {
               return (
                 <Col xs={12} md={8}>
                   <ProfileView user={user} onBackClick={() => history.goBack()} />
+                </Col>
+              )
+            }} />
+            <Route path={"/directors/:name"} render={({ match, history }) => {
+              if (!user) return <Redirect to="/" />
+              // If movie list is empty (while movies load from API), display empty page
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col xs={12} md={8}>
+                  <DirectorView movies={movies} director={movies.find(m => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
