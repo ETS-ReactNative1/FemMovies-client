@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-//import propTypes from 'prop-types';
-
 // Create RegistrationView as function component using Hooks
 export function RegistrationView(props) {
   // Call useState method from React to initialize registration variables with an empty value
@@ -118,9 +116,3 @@ export function RegistrationView(props) {
   );
 
 }
-
-/* Define propTypes when props are used
-RegistrationView.propTypes = {
-  onLoggedIn: propTypes.func.isRequired
-};
-*/
