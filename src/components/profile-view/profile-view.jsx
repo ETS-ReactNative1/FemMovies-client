@@ -100,6 +100,20 @@ export function ProfileView(props) {
         }
     }
 
+    const deleteProfile = (e) => {
+        axios.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}`)
+            .then(response => {
+                alert('Your profile was deleted!');
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+
+                window.open('/', '_self');
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
     // Return a registration form where users can submit their username, password, email and birthday
     // Listening to changes on input and then updating the respective states
     return (
@@ -131,6 +145,11 @@ export function ProfileView(props) {
                     Update Profile
                 </Button>
             </Form>
+            <div>
+                <Button className="mb-3" variant="danger" type="submit" onClick={deleteProfile}>
+                    Delete Profile
+                </Button>
+            </div>
             <div>
                 <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back to full list</Button>
             </div>
