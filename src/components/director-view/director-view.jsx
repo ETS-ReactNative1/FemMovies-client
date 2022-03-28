@@ -16,7 +16,7 @@ export function DirectorView(props) {
                 <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back</Button>
             </div>
 
-            <div className="director-name">
+            <div>
                 <h1 className="display-4">{props.director.Name}</h1>
             </div>
             <div>
@@ -27,7 +27,7 @@ export function DirectorView(props) {
             </div>
             <br />
             <div>
-                <h4>Other movies from this director:</h4>
+                <h4>Some movies from this director:</h4>
             </div>
 
 

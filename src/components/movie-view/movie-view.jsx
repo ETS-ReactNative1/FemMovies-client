@@ -24,7 +24,9 @@ export class MovieView extends React.Component {
 
 
         <div>
-          <Badge pill bg="light" text="dark">{movie.Genre.Name}</Badge>
+          <Link to={`/genres/${movie.Genre.Name}`} className="d-inline-flex">
+            <Badge pill bg="light" text="dark">{movie.Genre.Name}</Badge>
+          </Link>
         </div>
         <div>
           <p>Director: </p>
