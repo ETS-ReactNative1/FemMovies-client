@@ -16,7 +16,8 @@ export function ProfileView(props) {
     const [updatedUser, setUpdatedUser] = useState({});
 
     // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
-    // const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
+    //const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
+    const favoriteMovieList = props.movies; //This is only to work on the Favorite-Movies styling, DELETE later!
 
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
@@ -39,6 +40,7 @@ export function ProfileView(props) {
     /* Get the user data in useEffect hook */
     useEffect(() => {
         let source = axios.CancelToken.source();
+
 
 
         // Load user data
@@ -97,6 +99,17 @@ export function ProfileView(props) {
             });
     }
 
+    /* Function that allows users to remove a movie from their list of favorites */
+    const removeFav = (id) => {
+        axios.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}/movies/${id}`)
+            .then(response => {
+                alert('Removed from list!');
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
 
     return (
         <>
@@ -113,7 +126,7 @@ export function ProfileView(props) {
             </div>
 
             {/* List of favorite movies */}
-            {/* <FavoriteMovies favoriteMovieList={favoriteMovieList} /> */}
+            <FavoriteMovies favoriteMovieList={favoriteMovieList} removeFav={removeFav} />
 
 
             <div>

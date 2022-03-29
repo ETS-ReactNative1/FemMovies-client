@@ -115,7 +115,7 @@ class MainView extends React.Component {
             }} />
             <Route path="/movies/:movieId" render={({ match, history }) => {
               return (
-                <Col xs={12} md={8}>
+                <Col xs={12} md={10}>
                   <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
                 </Col>
               )
@@ -123,7 +123,7 @@ class MainView extends React.Component {
             <Route path={"/users/${user}"} render={({ history }) => {
               if (!user) return <Redirect to="/" />
               return (
-                <Col xs={12} md={8}>
+                <Col xs={12} md={10}>
                   <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
                 </Col>
               )
@@ -133,7 +133,7 @@ class MainView extends React.Component {
               // If movie list is empty (while movies load from API), display empty page
               if (movies.length === 0) return <div className="main-view" />;
               return (
-                <Col xs={12} md={8}>
+                <Col xs={12} md={10}>
                   <DirectorView movies={movies} director={movies.find(m => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
                 </Col>
               )
@@ -143,7 +143,7 @@ class MainView extends React.Component {
               // If movie list is empty (while movies load from API), display empty page
               if (movies.length === 0) return <div className="main-view" />;
               return (
-                <Col xs={12} md={8}>
+                <Col xs={12} md={10}>
                   <GenreView movies={movies} genre={movies.find(m => m.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />
                 </Col>
               )

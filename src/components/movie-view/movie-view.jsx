@@ -15,10 +15,14 @@ export class MovieView extends React.Component {
 
     return (
       <>
+        <div>
+          <Button variant="outline-light" onClick={() => { onBackClick() }}>Back</Button>
+        </div>
+
         <div className="movie-title">
           <h1 className="display-4">{movie.Title}</h1>
         </div>
-        <div className="movie-img text-center" >
+        <div className="movie-img text-left" >
           <img src={movie.ImagePath} width="350" className="img-fluid" />
         </div>
 
@@ -40,9 +44,9 @@ export class MovieView extends React.Component {
           <span className="value">{movie.Description}</span>
         </div>
 
-        <div>
-          <Button variant="outline-light" onClick={() => { onBackClick() }}>Back to full list</Button>
-        </div>
+        <Link to={"/"}>
+          <Button variant="outline-light">Back to full list</Button>
+        </Link>
       </>
       // onClick() event listener sets selectedMovie variable in main-view to null, allowing to return back to list of MovieCards
     );
