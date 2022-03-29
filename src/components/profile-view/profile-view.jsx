@@ -24,7 +24,7 @@ export function ProfileView(props) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
     /* Create function to get the user data from server, assign to userdata variable  */
-    const getUserData = (token, cancelToken, username) => {
+    const getUserData = (cancelToken, username) => {
         axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
             cancelToken: cancelToken
         })
@@ -45,7 +45,7 @@ export function ProfileView(props) {
 
         // Load user data
         if (token !== null) {
-            getUserData(token, source.token, props.user);
+            getUserData(source.token, props.user);
         } else {
             console.log('Not authorized');
         }

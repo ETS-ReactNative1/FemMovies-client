@@ -34126,7 +34126,7 @@ function ProfileView(props) {
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
     _axiosDefault.default.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    /* Create function to get the user data from server, assign to userdata variable  */ const getUserData = (token, cancelToken, username)=>{
+    /* Create function to get the user data from server, assign to userdata variable  */ const getUserData = (cancelToken, username)=>{
         _axiosDefault.default.get(`https://femmovies.herokuapp.com/users/${username}`, {
             cancelToken: cancelToken
         }).then((response)=>{
@@ -34139,7 +34139,7 @@ function ProfileView(props) {
     /* Get the user data in useEffect hook */ _react.useEffect(()=>{
         let source = _axiosDefault.default.CancelToken.source();
         // Load user data
-        if (token !== null) getUserData(token, source.token, props.user);
+        if (token !== null) getUserData(source.token, props.user);
         else console.log('Not authorized');
         // Cleanup effect
         return ()=>{
