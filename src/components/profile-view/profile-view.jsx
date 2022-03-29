@@ -10,12 +10,13 @@ import { FavoriteMovies } from './favorite-movies';
 
 export function ProfileView(props) {
 
-
+    // constant to hold the userdata loaded from the server
     const [userdata, setUserdata] = useState({});
+    // constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = useState({});
 
     // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
-    const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
+    // const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
 
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
@@ -57,11 +58,12 @@ export function ProfileView(props) {
     /* TBD: Validation? */
     const handleSubmit = (e) => {
         e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
+        console.log(updatedUser);
 
         // Sending request to server 
-        axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, {
+        axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`,
             updatedUser
-        })
+        )
             .then(response => {
                 const data = response.data;
                 alert('Profile successfully updated');
@@ -78,7 +80,6 @@ export function ProfileView(props) {
             ...updatedUser,
             [e.target.name]: e.target.value
         });
-
     }
 
     /* Allow users to deregister !!! TBD: ADD 'Are you sure?'-MODAL !!! */

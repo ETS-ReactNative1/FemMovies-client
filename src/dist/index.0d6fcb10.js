@@ -34099,13 +34099,14 @@ var _favoriteMovies = require("./favorite-movies");
 var _s = $RefreshSig$();
 function ProfileView(props) {
     _s();
+    // constant to hold the userdata loaded from the server
     const [userdata, setUserdata] = _react.useState({
     });
+    // constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = _react.useState({
     });
     // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
-    const favoriteMovieList = props.movies.filter((m)=>userdata.FavoriteMovies.includes(m._id)
-    );
+    // const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
     _axiosDefault.default.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -34131,10 +34132,9 @@ function ProfileView(props) {
     }, []);
     /* Update userdata through API */ /* TBD: Validation? */ const handleSubmit = (e1)=>{
         e1.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
+        console.log(updatedUser);
         // Sending request to server 
-        _axiosDefault.default.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, {
-            updatedUser
-        }).then((response)=>{
+        _axiosDefault.default.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, updatedUser).then((response)=>{
             const data = response.data;
             alert('Profile successfully updated');
         }).catch((e)=>{
@@ -34163,7 +34163,7 @@ function ProfileView(props) {
                 children: userdata.Username
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 102,
+                lineNumber: 103,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateUser.UpdateUser, {
@@ -34172,7 +34172,7 @@ function ProfileView(props) {
                 handleUpdate: handleUpdate
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 105,
+                lineNumber: 106,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -34184,12 +34184,12 @@ function ProfileView(props) {
                     children: "Delete Profile"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 109,
+                    lineNumber: 110,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 108,
+                lineNumber: 109,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -34201,12 +34201,12 @@ function ProfileView(props) {
                     children: "Back to full list"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 119,
+                    lineNumber: 120,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 118,
+                lineNumber: 119,
                 columnNumber: 13
             }, this)
         ]
