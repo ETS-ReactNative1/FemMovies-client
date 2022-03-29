@@ -124,7 +124,7 @@ class MainView extends React.Component {
               if (!user) return <Redirect to="/" />
               return (
                 <Col xs={12} md={8}>
-                  <ProfileView user={user} onBackClick={() => history.goBack()} />
+                  <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />

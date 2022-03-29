@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import Form from 'react-bootstrap/Form';
+
 import Button from 'react-bootstrap/Button';
+
+
+import { UpdateUser } from './update-user';
+import { FavoriteMovies } from './favorite-movies';
 
 export function ProfileView(props) {
 
 
-    const [userdata, setUserdata] = useState('');
+    const [userdata, setUserdata] = useState({});
+    const [updatedUser, setUpdatedUser] = useState({});
+
+    // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
+    const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
 
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-    /* Create function to get the user data from API, assign to userdata variable  */
+    /* Create function to get the user data from server, assign to userdata variable  */
     const getUserData = (token, cancelToken, username) => {
         axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
             cancelToken: cancelToken
@@ -45,61 +53,35 @@ export function ProfileView(props) {
         }
     }, []);
 
-    // Call useState method from React to initialize registration variables with an empty value
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [birthday, setBirthday] = useState('');
-
-    // Create hook for validation errors
-    const [usernameErr, setUsernameErr] = useState('');
-
-
-
-    // Create validation function
-    const validate = () => {
-        let isReq = true;
-        console.log('Validating');
-
-        if (username.length < 3) {
-            setUsernameErr('Username must be at least 3 characters long');
-            isReq = false;
-        }
-        return isReq;
-    }
-
-    // Sending request to server for authentication
-    const handleUpdate = (e) => {
+    /* Update userdata through API */
+    /* TBD: Validation? */
+    const handleSubmit = (e) => {
         e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
 
-        console.log('Handle Update');
-        console.log(userdata);
-
-
-        // Validate values before passing to API
-        //const isReq = validate();
-        const isReq = true;
-
-        if (isReq) {
-
-            /* Send a request to the server for authentication */
-            /* then call this.props.onLoggedIn(username) */
-            axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, {
-                Username: username,
-                Password: password,
-                Email: email,
-                Birthday: birthday
+        // Sending request to server 
+        axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, {
+            updatedUser
+        })
+            .then(response => {
+                const data = response.data;
+                alert('Profile successfully updated');
             })
-                .then(response => {
-                    const data = response.data;
-                    alert('Profile successfully updated');
-                })
-                .catch(e => {
-                    console.log(e);
-                });
-        }
+            .catch(e => {
+                console.log(e);
+            });
+
     }
 
+    /* Function to handle the updates in the form input fields, adding to updatedUser variable which will be passed to server in handleSubmit */
+    const handleUpdate = (e) => {
+        setUpdatedUser({
+            ...updatedUser,
+            [e.target.name]: e.target.value
+        });
+
+    }
+
+    /* Allow users to deregister !!! TBD: ADD 'Are you sure?'-MODAL !!! */
     const deleteProfile = (e) => {
         axios.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}`)
             .then(response => {
@@ -114,42 +96,25 @@ export function ProfileView(props) {
             });
     }
 
-    // Return a registration form where users can submit their username, password, email and birthday
-    // Listening to changes on input and then updating the respective states
+
     return (
         <>
             <h1>{userdata.Username}</h1>
-            <Form className="mb-3">
-                <Form.Group controlId="formUsername" className="mb-3">
-                    <Form.Label>Username:</Form.Label>
-                    <Form.Control type="text" defaultValue={userdata.Username} onChange={e => setUsername(e.target.value)} />
-                    {usernameErr && <p className="font-italic">{usernameErr}</p>}
-                </Form.Group>
 
-                <Form.Group controlId="formPassword" className="mb-3">
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control type="password" defaultValue={userdata.Password} onChange={e => setPassword(e.target.value)} />
-                </Form.Group>
+            {/* Form to update user data */}
+            <UpdateUser userdata={userdata} handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
 
-                <Form.Group controlId="formEmail" className="mb-3">
-                    <Form.Label>Email:</Form.Label>
-                    <Form.Control type="email" defaultValue={userdata.Email} onChange={e => setEmail(e.target.value)} />
-                </Form.Group>
-
-                <Form.Group controlId="formBirthday" className="mb-3">
-                    <Form.Label>Birthday:</Form.Label>
-                    <Form.Control type="date" defaultValue={userdata.Birthday} onChange={e => setBirthday(e.target.value)} />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" onClick={handleUpdate}>
-                    Update Profile
-                </Button>
-            </Form>
+            {/* Button to delete user */}
             <div>
                 <Button className="mb-3" variant="danger" type="submit" onClick={deleteProfile}>
                     Delete Profile
                 </Button>
             </div>
+
+            {/* List of favorite movies */}
+            {/* <FavoriteMovies favoriteMovieList={favoriteMovieList} /> */}
+
+
             <div>
                 <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back to full list</Button>
             </div>
