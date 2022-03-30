@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import Button from 'react-bootstrap/Button';
 
-
+import { UserData } from './user-data';
 import { UpdateUser } from './update-user';
 import { FavoriteMovies } from './favorite-movies';
 
@@ -14,10 +14,11 @@ export function ProfileView(props) {
     const [userdata, setUserdata] = useState({});
     // constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = useState({});
+    const [favoriteMovieList, setFavoriteMovieList] = useState([]);
 
     // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
     //const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
-    const favoriteMovieList = props.movies; //This is only to work on the Favorite-Movies styling, DELETE later!
+    // const favoriteMovieList = props.movies; //This is only to work on the Favorite-Movies styling, DELETE later!
 
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
@@ -31,6 +32,7 @@ export function ProfileView(props) {
             .then(response => {
                 //Assign the result to the userdata
                 setUserdata(response.data);
+                setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
             })
             .catch(err => {
                 console.log(err);
@@ -60,7 +62,6 @@ export function ProfileView(props) {
     /* TBD: Validation? */
     const handleSubmit = (e) => {
         e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
-        console.log(updatedUser);
 
         // Sending request to server 
         axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`,
@@ -113,7 +114,8 @@ export function ProfileView(props) {
 
     return (
         <>
-            <h1>{userdata.Username}</h1>
+            {/* Display userdata */}
+            <UserData userdata={userdata} />
 
             {/* Form to update user data */}
             <UpdateUser userdata={userdata} handleSubmit={handleSubmit} handleUpdate={handleUpdate} />

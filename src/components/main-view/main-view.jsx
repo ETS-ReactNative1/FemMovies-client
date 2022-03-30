@@ -49,7 +49,6 @@ class MainView extends React.Component {
 
   /* On successful login, set token and user variables of local State & load the movies list (getMovies) */
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
       user: authData.user.Username
     });

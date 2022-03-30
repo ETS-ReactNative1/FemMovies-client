@@ -23,10 +23,10 @@ export function FavoriteMovies({ favoriteMovieList, removeFav }) {
                                 <Card.Img variant="top" src={movie.ImagePath} className="img-responsive" />
                                 <Card.Body>
                                     <Card.Title>{movie.Title}</Card.Title>
+                                    <Button variant="outline-danger" onClick={() => removeFav(movie._id)}>Remove from Favorites</Button>
                                     <Link to={`/movies/${movie._id}`}>
                                         <Button variant="link">More Info</Button>
                                     </Link>
-                                    <Button variant="outline-danger" onClick={() => removeFav(movie._id)}>Remove from list</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
