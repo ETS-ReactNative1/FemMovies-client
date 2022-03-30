@@ -34120,10 +34120,8 @@ function ProfileView(props) {
     // constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = _react.useState({
     });
+    // constant to hold favorite movie list from userdata
     const [favoriteMovieList, setFavoriteMovieList] = _react.useState([]);
-    // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
-    //const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
-    // const favoriteMovieList = props.movies; //This is only to work on the Favorite-Movies styling, DELETE later!
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
     _axiosDefault.default.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -34133,6 +34131,7 @@ function ProfileView(props) {
         }).then((response)=>{
             //Assign the result to the userdata
             setUserdata(response.data);
+            //Set favorite movie list with values from FavoriteMovies in userdata
             setFavoriteMovieList(props.movies.filter((m)=>response.data.FavoriteMovies.includes(m._id)
             ));
         }).catch((err)=>{
@@ -34151,9 +34150,10 @@ function ProfileView(props) {
     }, []);
     /* Update userdata through API */ /* TBD: Validation? */ const handleSubmit = (e1)=>{
         e1.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
-        // Sending request to server 
+        // Sending request to server, if successful, update userdata
         _axiosDefault.default.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`, updatedUser).then((response)=>{
-            const data = response.data;
+            // Update userdata with the new userdata from the server
+            setUserdata(response.data);
             alert('Profile successfully updated');
         }).catch((e)=>{
             console.log(e);
@@ -34176,8 +34176,10 @@ function ProfileView(props) {
         });
     };
     /* Function that allows users to remove a movie from their list of favorites */ const removeFav = (id)=>{
-        _axiosDefault.default.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}/movies/${id}`).then((response)=>{
-            alert('Removed from list!');
+        _axiosDefault.default.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}/movies/${id}`).then(()=>{
+            // Change state of favoriteMovieList to rerender component
+            setFavoriteMovieList(favoriteMovieList.filter((movie)=>movie._id != id
+            ));
         }).catch((e)=>{
             console.log(e);
         });
@@ -34188,7 +34190,7 @@ function ProfileView(props) {
                 userdata: userdata
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 118,
+                lineNumber: 116,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateUser.UpdateUser, {
@@ -34197,7 +34199,7 @@ function ProfileView(props) {
                 handleUpdate: handleUpdate
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 121,
+                lineNumber: 119,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -34209,12 +34211,12 @@ function ProfileView(props) {
                     children: "Delete Profile"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 125,
+                    lineNumber: 123,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 124,
+                lineNumber: 122,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_favoriteMovies.FavoriteMovies, {
@@ -34222,7 +34224,7 @@ function ProfileView(props) {
                 removeFav: removeFav
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 131,
+                lineNumber: 129,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -34234,12 +34236,12 @@ function ProfileView(props) {
                     children: "Back to full list"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 135,
+                    lineNumber: 133,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 134,
+                lineNumber: 132,
                 columnNumber: 13
             }, this)
         ]

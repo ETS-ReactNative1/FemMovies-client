@@ -14,11 +14,9 @@ export function ProfileView(props) {
     const [userdata, setUserdata] = useState({});
     // constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = useState({});
+    // constant to hold favorite movie list from userdata
     const [favoriteMovieList, setFavoriteMovieList] = useState([]);
 
-    // Load list of favorite Movies from user data --> PROBLEM: Not working when still waiting for server response (loading userdata)
-    //const favoriteMovieList = props.movies.filter(m => userdata.FavoriteMovies.includes(m._id));
-    // const favoriteMovieList = props.movies; //This is only to work on the Favorite-Movies styling, DELETE later!
 
     // Set default Authorization for axios requests
     let token = localStorage.getItem('token');
@@ -32,6 +30,7 @@ export function ProfileView(props) {
             .then(response => {
                 //Assign the result to the userdata
                 setUserdata(response.data);
+                //Set favorite movie list with values from FavoriteMovies in userdata
                 setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
             })
             .catch(err => {
@@ -42,8 +41,6 @@ export function ProfileView(props) {
     /* Get the user data in useEffect hook */
     useEffect(() => {
         let source = axios.CancelToken.source();
-
-
 
         // Load user data
         if (token !== null) {
@@ -63,18 +60,18 @@ export function ProfileView(props) {
     const handleSubmit = (e) => {
         e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
 
-        // Sending request to server 
+        // Sending request to server, if successful, update userdata
         axios.put(`https://femmovies.herokuapp.com/users/${userdata.Username}`,
             updatedUser
         )
             .then(response => {
-                const data = response.data;
+                // Update userdata with the new userdata from the server
+                setUserdata(response.data);
                 alert('Profile successfully updated');
             })
             .catch(e => {
                 console.log(e);
             });
-
     }
 
     /* Function to handle the updates in the form input fields, adding to updatedUser variable which will be passed to server in handleSubmit */
@@ -103,8 +100,9 @@ export function ProfileView(props) {
     /* Function that allows users to remove a movie from their list of favorites */
     const removeFav = (id) => {
         axios.delete(`https://femmovies.herokuapp.com/users/${userdata.Username}/movies/${id}`)
-            .then(response => {
-                alert('Removed from list!');
+            .then(() => {
+                // Change state of favoriteMovieList to rerender component
+                setFavoriteMovieList(favoriteMovieList.filter(movie => movie._id != id));
             })
             .catch(e => {
                 console.log(e);
