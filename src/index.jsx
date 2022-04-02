@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { devToolsEnhancer } from 'redux-devtools-extension';
+import moviesApp from './reducers/reducers';
+
 import MainView from './components/main-view/main-view';
-
-
-
-
 
 // Import statement to indicate that './index.scss' should be bundled
 import './index.scss';
+
+// Create redux store
+const store = createStore(moviesApp, devToolsEnhancer());
 
 // Main component
 class FemMoviesApplication extends React.Component {
@@ -16,9 +20,10 @@ class FemMoviesApplication extends React.Component {
   render() {
     return (
       <>
-        <MainView />
+        <Provider store={store}>
+          <MainView />
+        </Provider>
       </>
-
     );
   }
 }

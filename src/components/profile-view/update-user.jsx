@@ -3,7 +3,9 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export function UpdateUser({ userdata, handleUpdate, handleSubmit }) {
+export function UpdateUserForm(props) {
+    const { handleUpdate, handleSubmit } = props;
+
     // Return a registration form where users can submit their username, password, email and birthday
     // Listening to changes on input and then updating the respective states
     return (

@@ -1,11 +1,13 @@
 import React from 'react';
 
-export function UserData({ userdata }) {
+export function UserData(props) {
+    const { user } = props;
+
     return (
         <>
-            <h4>{userdata.Username}</h4>
-            <p>Email: {userdata.Email}</p>
-            <p>Birthday: {userdata.Birthday}</p>
+            <h4>{user.Username}</h4>
+            <p>Email: {user.Email}</p>
+            <p>Birthday: {user.Birthday}</p>
         </>
     )
 }

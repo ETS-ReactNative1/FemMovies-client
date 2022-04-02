@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 // Create RegistrationView as function component using Hooks
-export function RegistrationView(props) {
+export function RegistrationView() {
   // Call useState method from React to initialize registration variables with an empty value
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

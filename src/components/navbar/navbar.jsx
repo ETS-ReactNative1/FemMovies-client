@@ -11,7 +11,8 @@ import { Link } from 'react-router-dom';
 
 
 
-export function Navbar(user) {
+export function Navbar(props) {
+    const { user } = props;
 
     const onLoggedOut = () => {
         localStorage.clear();
@@ -33,9 +34,9 @@ export function Navbar(user) {
         <Navbar bg="dark" variant="dark" className="mb-3">
             <Container>
                 <Navbar.Brand as={Link} to={"/"}>FemMovies</Navbar.Brand>
-                {isAuth() && (
+                {isAuth() && user && (
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to={"/users/${user}"}>Profile</Nav.Link>
+                        <Nav.Link as={Link} to={`/users/${user.Username}`}>Profile</Nav.Link>
                         <Button variant="outline-primary" onClick={() => { onLoggedOut() }}>Logout</Button>
                     </Nav>
                 )}

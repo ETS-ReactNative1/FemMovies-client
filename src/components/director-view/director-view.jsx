@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MovieCard } from '../movie-card/movie-card';
+import MovieCard from '../movie-card/movie-card';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,21 +9,22 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 export function DirectorView(props) {
+    const { movies, user, director, onBackClick, favoriteMovies } = props;
     return (
         <>
 
             <div>
-                <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back</Button>
+                <Button variant="outline-light" onClick={() => { onBackClick() }}>Back</Button>
             </div>
 
             <div>
-                <h1 className="display-4">{props.director.Name}</h1>
+                <h1 className="display-4">{director.Name}</h1>
             </div>
             <div>
-                <span className="value">Birthday: {props.director.Birthday}</span>
+                <span className="value">Birthday: {director.Birthday}</span>
             </div>
             <div>
-                <span className="value">{props.director.Bio}</span>
+                <span className="value">{director.Bio}</span>
             </div>
             <br />
             <div>
@@ -33,9 +34,9 @@ export function DirectorView(props) {
 
 
             <Row className="justify-content-md-center">
-                {props.movies.filter(m => m.Director.Name === props.director.Name).map(m => (
+                {movies.filter(m => m.Director.Name === director.Name).map(m => (
                     <Col xs={12} sm={6} md={4} className="d-flex" key={m._id}>
-                        <MovieCard movie={m} />
+                        <MovieCard movie={m} user={user} favoriteMovies={favoriteMovies} />
                     </Col>
                 ))}
             </Row>

@@ -1,17 +1,24 @@
 import React from 'react';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
 
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+
+/* import actions */
+import { setMovies, setUser, setFavoriteMovies } from '../../actions/actions';
+
+/* import views */
 import { Navbar } from '../navbar/navbar';
 import { LoginView } from '../login-view/login-view';
-import { MovieCard } from '../movie-card/movie-card';
+import MoviesList from '../movies-list/movies-list';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { ProfileView } from '../profile-view/profile-view';
+import ProfileView from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 
+/* import bootstrap components */
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,12 +29,24 @@ class MainView extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      // Creating an empty array to hold movie data from database
-      movies: [],
-      // Set initial user state to null, used for user login --> Default is logged out
-      user: null
-    };
+  }
+
+  // When token is present (user is logged in), get list of movies
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    let username = localStorage.getItem('user');
+    console.log('componentDidMount() is running!');
+
+    if (accessToken !== null && username !== null) {
+      Promise.all([
+        this.getMovies(accessToken),
+        this.getUser(accessToken, username)
+      ])
+        .then(() => {
+          this.props.setFavoriteMovies(this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
+        })
+    }
+
   }
 
   // Query femmovies API /movies endpoint to set movies state
@@ -36,48 +55,54 @@ class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        //Assign the result to the state
-        this.setState({
-          movies: response.data
-
-        });
+        //Assign the result to the movies state using action creator
+        this.props.setMovies(response.data);
       })
       .catch(err => {
         console.log(err);
       });
   }
 
+  /* Create function to get the user data from server, assign to userdata variable  */
+  getUser(token, username) {
+    axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        //Assign the result to the userdata
+        this.props.setUser(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
+
+
   /* On successful login, set token and user variables of local State & load the movies list (getMovies) */
   onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username
-    });
-
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
+    console.log('onLoggedIn() is running!');
+
+    Promise.all([
+      this.getMovies(authData.token),
+      this.getUser(authData.token, authData.user.Username)
+    ])
+      .then(() => {
+        this.props.setFavoriteMovies(this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
+      })
   }
 
-  // When token is present (user is logged in), get list of movies
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken);
-    }
-  }
+
 
   render() {
-    const { movies, user } = this.state;
+    let { movies, user, favoriteMovies } = this.props;
+    console.log('List of favoriteMovies:');
+    console.log(favoriteMovies);
 
 
-
-
-    // Else, logic to display the main-view: 
-    // If no movie is selected (selecteMovie = null), display a MovieCard for each movie in the list
-    // If a movie is selected (via setSelectedMovie, clicking on the MovieCard), display MovieView for this movie
     return (
       <Router>
         < Navbar user={user} />
@@ -89,19 +114,16 @@ class MainView extends React.Component {
               /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
               if (!user) return (
                 <Col md={6}>
-                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                  <LoginView onLoggedIn={authData => this.onLoggedIn(authData)} />
                 </Col>
               )
 
               // If movie list is empty (while movies load from API), display empty page
               if (movies.length === 0) return <div className="main-view" />;
 
-              return movies.map(m => (
-                <Col xs={12} sm={6} md={4} lg={3} className="d-flex" key={m._id}>
-                  <MovieCard movie={m} />
-                </Col>
-
-              ))
+              return (
+                <MoviesList movies={movies} user={user} favoriteMovies={favoriteMovies} />
+              )
             }} />
 
             <Route path="/register" render={() => {
@@ -119,11 +141,11 @@ class MainView extends React.Component {
                 </Col>
               )
             }} />
-            <Route path={"/users/${user}"} render={({ history }) => {
+            <Route path={`/users/:username`} render={({ history }) => {
               if (!user) return <Redirect to="/" />
               return (
                 <Col xs={12} md={10}>
-                  <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
+                  <ProfileView user={user} favoriteMovies={favoriteMovies} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
@@ -133,7 +155,7 @@ class MainView extends React.Component {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col xs={12} md={10}>
-                  <DirectorView movies={movies} director={movies.find(m => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
+                  <DirectorView movies={movies} user={user} favoriteMovies={favoriteMovies} director={movies.find(m => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
@@ -143,7 +165,7 @@ class MainView extends React.Component {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col xs={12} md={10}>
-                  <GenreView movies={movies} genre={movies.find(m => m.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />
+                  <GenreView movies={movies} user={user} favoriteMovies={favoriteMovies} genre={movies.find(m => m.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
@@ -157,4 +179,12 @@ class MainView extends React.Component {
   }
 }
 
-export default MainView;
+let mapStateToProps = state => {
+  return {
+    movies: state.movies,
+    user: state.user,
+    favoriteMovies: state.favoriteMovies
+  }
+}
+
+export default connect(mapStateToProps, { setMovies, setUser, setFavoriteMovies })(MainView);
