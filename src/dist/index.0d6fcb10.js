@@ -1011,7 +1011,7 @@ var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
 var _redux = require("redux");
 var _reactRedux = require("react-redux");
-var _reduxDevtoolsExtension = require("redux-devtools-extension");
+var _reduxThunk = require("redux-thunk");
 var _reducers = require("./reducers/reducers");
 var _reducersDefault = parcelHelpers.interopDefault(_reducers);
 var _mainView = require("./components/main-view/main-view");
@@ -1019,7 +1019,7 @@ var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
 // Import statement to indicate that './index.scss' should be bundled
 var _indexScss = require("./index.scss");
 // Create redux store
-const store = _redux.createStore(_reducersDefault.default, _reduxDevtoolsExtension.devToolsEnhancer());
+const store = _redux.createStore(_reducersDefault.default, _redux.applyMiddleware(_reduxThunk.ThunkMiddleware));
 // Main component
 class FemMoviesApplication extends _reactDefault.default.Component {
     render() {
@@ -1029,12 +1029,12 @@ class FemMoviesApplication extends _reactDefault.default.Component {
                 children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_mainViewDefault.default, {
                 }, void 0, false, {
                     fileName: "src/index.jsx",
-                    lineNumber: 24,
+                    lineNumber: 27,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "src/index.jsx",
-                lineNumber: 23,
+                lineNumber: 26,
                 columnNumber: 9
             }, this)
         }, void 0, false));
@@ -1050,7 +1050,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","./components/main-view/main-view":"4gflv","./index.scss":"lJZlQ","@parcel/transformer-js/src/esmodule-helpers.js":"8vyus","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"bg0mY","redux":"cDNB3","react-redux":"bdVon","redux-devtools-extension":"fOPxo","./reducers/reducers":"dgblV"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","./components/main-view/main-view":"4gflv","./index.scss":"lJZlQ","@parcel/transformer-js/src/esmodule-helpers.js":"8vyus","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"bg0mY","redux":"cDNB3","react-redux":"bdVon","./reducers/reducers":"dgblV","redux-thunk":"iFVTZ"}],"iTorj":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react-jsx-dev-runtime.development.js');
 
@@ -36037,11 +36037,19 @@ var useSelector = /*#__PURE__*/ createSelectorHook();
 },{"react":"21dqq","./useReduxContext":"3828k","../utils/Subscription":"ieuHT","../utils/useIsomorphicLayoutEffect":"kNbVc","../components/Context":"ji81o","@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}],"biFwH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SET_MOVIES", ()=>SET_MOVIES
+parcelHelpers.export(exports, "FETCH_MOVIES_REQUEST", ()=>FETCH_MOVIES_REQUEST
+);
+parcelHelpers.export(exports, "FETCH_MOVIES_SUCCESS", ()=>FETCH_MOVIES_SUCCESS
+);
+parcelHelpers.export(exports, "FETCH_MOVIES_FAILURE", ()=>FETCH_MOVIES_FAILURE
 );
 parcelHelpers.export(exports, "SET_FILTER", ()=>SET_FILTER
 );
-parcelHelpers.export(exports, "SET_USER", ()=>SET_USER
+parcelHelpers.export(exports, "FETCH_USER_REQUEST", ()=>FETCH_USER_REQUEST
+);
+parcelHelpers.export(exports, "FETCH_USER_SUCCESS", ()=>FETCH_USER_SUCCESS
+);
+parcelHelpers.export(exports, "FETCH_USER_FAILURE", ()=>FETCH_USER_FAILURE
 );
 parcelHelpers.export(exports, "UPDATE_USER", ()=>UPDATE_USER
 );
@@ -36054,13 +36062,21 @@ parcelHelpers.export(exports, "REMOVE_FAVORITEMOVIE", ()=>REMOVE_FAVORITEMOVIE
 /* 
  * action creators
  */ // Initalize the movie list with movies
-parcelHelpers.export(exports, "setMovies", ()=>setMovies
+parcelHelpers.export(exports, "fetchMoviesRequest", ()=>fetchMoviesRequest
+);
+parcelHelpers.export(exports, "fetchMoviesSuccess", ()=>fetchMoviesSuccess
+);
+parcelHelpers.export(exports, "fetchMoviesFailure", ()=>fetchMoviesFailure
 );
 // Filter movies
 parcelHelpers.export(exports, "setFilter", ()=>setFilter
 );
 // Set the user that is logged in
-parcelHelpers.export(exports, "setUser", ()=>setUser
+parcelHelpers.export(exports, "fetchUserRequest", ()=>fetchUserRequest
+);
+parcelHelpers.export(exports, "fetchUserSuccess", ()=>fetchUserSuccess
+);
+parcelHelpers.export(exports, "fetchUserFailure", ()=>fetchUserFailure
 );
 // Allow user to update their data
 parcelHelpers.export(exports, "updateUser", ()=>updateUser
@@ -36074,17 +36090,32 @@ parcelHelpers.export(exports, "addFavoriteMovie", ()=>addFavoriteMovie
 // Allow user to remove a movie from Favorite Movie List
 parcelHelpers.export(exports, "removeFavoriteMovie", ()=>removeFavoriteMovie
 );
-const SET_MOVIES = 'SET_MOVIES';
+const FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST';
+const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
+const FETCH_MOVIES_FAILURE = 'FETCH_MOVIES_FAILURE';
 const SET_FILTER = 'SET_FILTER';
-const SET_USER = 'SET_USER';
+const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
+const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 const UPDATE_USER = 'UPDATE_USER';
 const SET_FAVORITEMOVIES = 'SET_FAVORITEMOVIES';
 const ADD_FAVORITEMOVIE = 'ADD_FAVORITEMOVIE';
 const REMOVE_FAVORITEMOVIE = 'REMOVE_FAVORITEMOVIE';
-function setMovies(value) {
+function fetchMoviesRequest() {
     return {
-        type: SET_MOVIES,
-        value
+        type: FETCH_MOVIES_REQUEST
+    };
+}
+function fetchMoviesSuccess(movies) {
+    return {
+        type: FETCH_MOVIES_SUCCESS,
+        payload: movies
+    };
+}
+function fetchMoviesFailure(error) {
+    return {
+        type: FETCH_MOVIES_FAILURE,
+        payload: error
     };
 }
 function setFilter(value) {
@@ -36093,17 +36124,28 @@ function setFilter(value) {
         value
     };
 }
-function setUser(value) {
+function fetchUserRequest() {
     return {
-        type: SET_USER,
-        value
+        type: FETCH_USER_REQUEST
     };
 }
-function updateUser(value) {
+function fetchUserSuccess(user) {
+    return {
+        type: FETCH_USER_SUCCESS,
+        payload: user
+    };
+}
+function fetchUserFailure(error) {
+    return {
+        type: FETCH_USER_FAILURE,
+        payload: error
+    };
+}
+function updateUser(updatedUser) {
     console.log('Reached the action UPDATE_FAVORITEMOVIES!');
     return {
         type: UPDATE_USER,
-        value
+        payload: updatedUser
     };
 }
 function setFavoriteMovies(value) {
@@ -37114,22 +37156,7 @@ function _defineProperty(obj, key, value) {
 }
 exports.default = _defineProperty;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}],"fOPxo":[function(require,module,exports) {
-'use strict';
-var compose = require('redux').compose;
-exports.__esModule = true;
-exports.composeWithDevTools = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : function() {
-    if (arguments.length === 0) return undefined;
-    if (typeof arguments[0] === 'object') return compose;
-    return compose.apply(null, arguments);
-};
-exports.devToolsEnhancer = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ : function() {
-    return function(noop) {
-        return noop;
-    };
-};
-
-},{"redux":"cDNB3"}],"dgblV":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}],"dgblV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _redux = require("redux");
@@ -37195,6 +37222,34 @@ function favoriteMovies(state = [], action) {
 });
 exports.default = moviesApp;
 
-},{"redux":"cDNB3","../actions/actions":"biFwH","@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}]},["9Rn3c","jXoZU","d8Dch"], "d8Dch", "parcelRequiree02d")
+},{"redux":"cDNB3","../actions/actions":"biFwH","@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}],"iFVTZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+/** A function that accepts a potential "extra argument" value to be injected later,
+ * and returns an instance of the thunk middleware that uses that value
+ */ function createThunkMiddleware(extraArgument) {
+    // Standard Redux middleware definition pattern:
+    // See: https://redux.js.org/tutorials/fundamentals/part-4-store#writing-custom-middleware
+    var middleware = function middleware(_ref) {
+        var dispatch = _ref.dispatch, getState = _ref.getState;
+        return function(next) {
+            return function(action) {
+                // The thunk middleware looks for any functions that were passed to `store.dispatch`.
+                // If this "action" is really a function, call it and return the result.
+                if (typeof action === 'function') // Inject the store's `dispatch` and `getState` methods, as well as any "extra arg"
+                return action(dispatch, getState, extraArgument);
+                 // Otherwise, pass the action down the middleware chain as usual
+                return next(action);
+            };
+        };
+    };
+    return middleware;
+}
+var thunk = createThunkMiddleware(); // Attach the factory function so users can create a customized version
+// with whatever "extra arg" they want to inject into their thunks
+thunk.withExtraArgument = createThunkMiddleware;
+exports.default = thunk;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"8vyus"}]},["9Rn3c","jXoZU","d8Dch"], "d8Dch", "parcelRequiree02d")
 
 //# sourceMappingURL=index.0d6fcb10.js.map
