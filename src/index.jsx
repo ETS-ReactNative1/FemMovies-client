@@ -11,7 +11,7 @@ import MainView from './components/main-view/main-view';
 import './index.scss';
 
 // Create redux store
-const store = createStore(moviesApp, devToolsEnhancer());
+const store = createStore(moviesApp, devToolsEnhancer()); // Use devToolsEnhancer() middleware
 
 // Main component
 class FemMoviesApplication extends React.Component {
