@@ -2,9 +2,13 @@
  * action types
  */
 
-export const SET_MOVIES = 'SET_MOVIES';
+export const FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST';
+export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
+export const FETCH_MOVIES_FAILURE = 'FETCH_MOVIES_FAILURE';
 export const SET_FILTER = 'SET_FILTER';
-export const SET_USER = 'SET_USER';
+export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 export const UPDATE_USER = 'UPDATE_USER';
 export const SET_FAVORITEMOVIES = 'SET_FAVORITEMOVIES';
 export const ADD_FAVORITEMOVIE = 'ADD_FAVORITEMOVIE';
@@ -15,10 +19,23 @@ export const REMOVE_FAVORITEMOVIE = 'REMOVE_FAVORITEMOVIE';
  */
 
 // Initalize the movie list with movies
-export function setMovies(value) {
+export function fetchMoviesRequest() {
     return {
-        type: SET_MOVIES,
-        value
+        type: FETCH_MOVIES_REQUEST
+    };
+}
+
+export function fetchMoviesSuccess(movies) {
+    return {
+        type: FETCH_MOVIES_SUCCESS,
+        payload: movies
+    };
+}
+
+export function fetchMoviesFailure(error) {
+    return {
+        type: FETCH_MOVIES_FAILURE,
+        payload: error
     };
 }
 
@@ -31,19 +48,32 @@ export function setFilter(value) {
 }
 
 // Set the user that is logged in
-export function setUser(value) {
+export function fetchUserRequest() {
     return {
-        type: SET_USER,
-        value
+        type: FETCH_USER_REQUEST
+    };
+}
+
+export function fetchUserSuccess(user) {
+    return {
+        type: FETCH_USER_SUCCESS,
+        payload: user
+    };
+}
+
+export function fetchUserFailure(error) {
+    return {
+        type: FETCH_USER_FAILURE,
+        payload: error
     };
 }
 
 // Allow user to update their data
-export function updateUser(value) {
+export function updateUser(updatedUser) {
     console.log('Reached the action UPDATE_FAVORITEMOVIES!');
     return {
         type: UPDATE_USER,
-        value
+        payload: updatedUser
     };
 }
 

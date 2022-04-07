@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 // Import actions
-import { ADD_FAVORITEMOVIE, REMOVE_FAVORITEMOVIE, SET_FAVORITEMOVIES, SET_FILTER, SET_MOVIES, SET_USER, UPDATE_USER } from "../actions/actions";
+import { ADD_FAVORITEMOVIE, REMOVE_FAVORITEMOVIE, SET_FAVORITEMOVIES, SET_FILTER, FETCH_MOVIES_FAILURE, FETCH_MOVIES_SUCCESS, FETCH_MOVIES_REQUEST, FETCH_USER_FAILURE, FETCH_USER_REQUEST, FETCH_USER_SUCCESS, UPDATE_USER } from "../actions/actions";
 
 /*
  * reducer functions
@@ -16,24 +16,55 @@ function visibilityFilter(state = '', action) {
   }
 }
 
-function movies(state = [], action) {
+function movies(state = { loading: false, movies: [], error: '' }, action) {
   switch (action.type) {
-    case SET_MOVIES:
-      console.log('Reached the reducer SET_MOVIES!');
-      return action.value;
+    case FETCH_MOVIES_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case FETCH_MOVIES_SUCCESS:
+      return {
+        loading: false,
+        movies: action.payload,
+        error: ''
+      };
+    case FETCH_MOVIES_FAILURE:
+      return {
+        loading: false,
+        movies: [],
+        error: action.payload
+      };
     default:
       return state;
   }
 }
 
-function user(state = null, action) {
+function user(state = { loading: false, user: null, error: '' }, action) {
   switch (action.type) {
-    case SET_USER:
-      console.log('Reached the reducer SET_USER!');
-      return action.value;
+    case FETCH_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case FETCH_USER_SUCCESS:
+      return {
+        loading: false,
+        user: action.payload,
+        error: ''
+      };
+    case FETCH_USER_FAILURE:
+      return {
+        loading: false,
+        user: null,
+        error: action.payload
+      };
     case UPDATE_USER:
       console.log('Reached the reducer UPDATE_USER!');
-      return action.value;
+      return {
+        ...state,
+        user: action.payload
+      };
     default:
       return state;
   }

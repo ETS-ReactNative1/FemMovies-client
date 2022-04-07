@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 /* import actions */
-import { setMovies, setUser, setFavoriteMovies } from '../../actions/actions';
+import { fetchMoviesFailure, fetchMoviesRequest, fetchMoviesSuccess, fetchUserFailure, fetchUserRequest, fetchUserSuccess, setFavoriteMovies } from '../../actions/actions';
 
 /* import views */
 import { Navbar } from '../navbar/navbar';
@@ -39,8 +39,8 @@ class MainView extends React.Component {
 
     if (accessToken !== null && username !== null) {
       Promise.all([
-        this.getMovies(accessToken),
-        this.getUser(accessToken, username)
+        this.fetchMovies(accessToken),
+        this.fetchUser(accessToken, username)
       ])
         .then(() => {
           this.props.setFavoriteMovies(this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
@@ -50,31 +50,39 @@ class MainView extends React.Component {
   }
 
   // Query femmovies API /movies endpoint to set movies state
-  getMovies(token) {
-    axios.get('https://femmovies.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        //Assign the result to the movies state using action creator
-        this.props.setMovies(response.data);
+  fetchMovies(token) {
+    return function () {
+      this.props.fetchMoviesRequest();
+      axios.get('https://femmovies.herokuapp.com/movies', {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(response => {
+          //Assign the result to the movies state using action creator
+          this.props.fetchMoviesSuccess(response.data);
+        })
+        .catch(err => {
+          this.props.fetchMoviesFailure(err);
+          console.log(err);
+        });
+    };
   }
 
   /* Create function to get the user data from server, assign to userdata variable  */
-  getUser(token, username) {
-    axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        //Assign the result to the userdata
-        this.props.setUser(response.data);
+  fetchUser(token, username) {
+    return function () {
+      this.props.fetchUserRequest();
+      axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(response => {
+          //Assign the result to the userdata
+          this.props.fetchUserSuccess(response.data);
+        })
+        .catch(err => {
+          this.props.fetchUserFailure(err);
+          console.log(err);
+        });
+    };
   }
 
 
@@ -187,4 +195,4 @@ let mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { setMovies, setUser, setFavoriteMovies })(MainView);
+export default connect(mapStateToProps, { fetchMoviesFailure, fetchMoviesRequest, fetchMoviesSuccess, fetchUserFailure, fetchUserRequest, fetchUserSuccess, setFavoriteMovies })(MainView);
