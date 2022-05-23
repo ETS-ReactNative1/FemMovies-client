@@ -38,18 +38,19 @@ class MainView extends React.Component {
     console.log('componentDidMount() is running!');
 
     if (accessToken !== null && username !== null) {
-      Promise.all([
-        this.getMovies(accessToken),
-        this.getUser(accessToken, username)
-      ])
-        .then(() => {
-          this.props.setFavoriteMovies(this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
-        })
+
+      this.getMovies(accessToken);
+      this.getUser(accessToken, username);
+      this.getFavoriteMovies(accessToken, username);
+
     }
 
   }
 
-  // Query femmovies API /movies endpoint to set movies state
+  /**
+   * queries the movie api to set movies state with the list of all movies
+   * @param {string} token 
+   */
   getMovies(token) {
     axios.get('https://femmovies.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
@@ -63,7 +64,12 @@ class MainView extends React.Component {
       });
   }
 
-  /* Create function to get the user data from server, assign to userdata variable  */
+
+  /**
+   * queries the movie api to set user state with the currently logged in user
+   * @param {string} token 
+   * @param {string} username 
+   */
   getUser(token, username) {
     axios.get(`https://femmovies.herokuapp.com/users/${username}`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -77,22 +83,39 @@ class MainView extends React.Component {
       });
   }
 
+  /**
+   * queries the movie api to set the favorite movies with the list of the currently logged in user
+   * @param {string} token 
+   * @param {string} username 
+   */
+  getFavoriteMovies(token, username) {
+    axios.get(`https://femmovies.herokuapp.com/users/${username}/movies`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        //Assign the result to the userdata
+        this.props.setFavoriteMovies(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
-
-
-  /* On successful login, set token and user variables of local State & load the movies list (getMovies) */
+  /**
+   * On successful user login: sets local storage, and calls the API query functions to se the states for movies, user, and favorite Movies 
+   * @param {*} authData 
+   */
   onLoggedIn(authData) {
+    // Set local storage
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     console.log('onLoggedIn() is running!');
 
-    Promise.all([
-      this.getMovies(authData.token),
-      this.getUser(authData.token, authData.user.Username)
-    ])
-      .then(() => {
-        this.props.setFavoriteMovies(this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
-      })
+    // Make API calls to set states
+    this.getMovies(authData.token);
+    this.getUser(authData.token, authData.user.Username);
+    this.getFavoriteMovies(authData.token, authData.user.Username);
+
   }
 
 

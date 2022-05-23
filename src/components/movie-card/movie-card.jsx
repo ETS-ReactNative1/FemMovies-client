@@ -21,7 +21,7 @@ function MovieCard(props) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
   useEffect(() => {
-    if (favoriteMovies.find(m => m._id === movie._id)) {
+    if (favoriteMovies.find(m => m === movie._id)) {
       setIsFav(true);
     }
   })
