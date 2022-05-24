@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/F3NJ0/FemMovies-client/issues"
   },
-  "homepage": "https://github.com/F3NJ0/FemMovies-client#readme",
+  "homepage": "https://github.com/F3NJ0/FemMovies-client",
   "dependencies": {
     "axios": "^0.26.1",
     "parcel": "^2.0.0-rc.0",
