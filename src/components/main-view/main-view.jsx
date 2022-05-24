@@ -9,8 +9,8 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { setMovies, setUser, setFavoriteMovies } from '../../actions/actions';
 
 /* import views */
-import { Navbar } from '../navbar/navbar';
 import { LoginView } from '../login-view/login-view';
+import { Navbar } from '../navbar/navbar';
 import MoviesList from '../movies-list/movies-list';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
