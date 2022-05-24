@@ -25745,8 +25745,9 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactRedux = require("react-redux");
 var _reactRouterDom = require("react-router-dom");
 /* import actions */ var _actions = require("../../actions/actions");
-/* import views */ var _loginView = require("../login-view/login-view");
-var _navbar = require("../navbar/navbar");
+/* import views */ var _navbar = require("../navbar/navbar");
+var _navbarDefault = parcelHelpers.interopDefault(_navbar);
+var _loginView = require("../login-view/login-view");
 var _moviesList = require("../movies-list/movies-list");
 var _moviesListDefault = parcelHelpers.interopDefault(_moviesList);
 var _movieView = require("../movie-view/movie-view");
@@ -25826,7 +25827,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __self: this,
             children: [
-                /*#__PURE__*/ _jsxRuntime.jsx(_navbar.Navbar, {
+                /*#__PURE__*/ _jsxRuntime.jsx(_navbarDefault.default, {
                     user: user,
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
@@ -29823,8 +29824,6 @@ $parcel$ReactRefreshHelpers$1bb2.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Navbar", ()=>Navbar
-);
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
@@ -29910,6 +29909,7 @@ function Navbar(props) {
         })
     }));
 }
+exports.default = Navbar;
 _c = _navbarDefault.default;
 var _c;
 $RefreshReg$(_c, "Navbar");

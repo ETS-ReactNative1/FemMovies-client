@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 
 
-export function Navbar(props) {
+export default function Navbar(props) {
     const { user } = props;
 
     const onLoggedOut = () => {
